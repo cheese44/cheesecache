@@ -1,0 +1,26 @@
+{
+  "name": "cheese44/cheeseCache",
+  "description": "cheeseCache",
+  "type": "library",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/cheese44/cheeseCache/issues",
+    "source": "https://github.com/cheese44/cheeseCache"
+  },
+  "require": {
+    "php": ">=5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "cheeseCache\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "cheeseCache\\tests\\": "tests"
+    }
+  }
+}

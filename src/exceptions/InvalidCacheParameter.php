@@ -1,6 +1,6 @@
 <?php
 
-  namespace cheeseCache\app\exceptions;
+  namespace cheeseCache\exceptions;
 
   /**
    * @author cheese44

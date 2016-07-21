@@ -2,9 +2,8 @@
 
   namespace cheeseCache\app;
 
-  use cheeseCache\app\exceptions\InvalidCacheParameter;
-  use cheeseCache\app\exceptions\InvalidCollisionMode;
   use cheeseCache\interfaces as cheeseInterfaces;
+  use cheeseCache\exceptions as cheeseExceptions;
 
   /**
    * @author cheese44
@@ -188,20 +187,25 @@
       $cache[self::RESERVED_CACHE_KEY] = $value;
     }
 
+    /**
+     * @param $cacheParams
+     *
+     * @throws cheeseExceptions\InvalidCacheParameter
+     */
     private function validateCacheParameters($cacheParams) {
       if(in_array(self::RESERVED_CACHE_KEY, $cacheParams)):
-        throw new InvalidCacheParameter(self::RESERVED_CACHE_KEY);
+        throw new cheeseExceptions\InvalidCacheParameter(self::RESERVED_CACHE_KEY);
       endif;
     }
 
     /**
      * @param int $mode
      *
-     * @throws InvalidCollisionMode
+     * @throws cheeseExceptions\InvalidCollisionMode
      */
     private function validateCollisionMode($mode) {
       if(!in_array($mode, $this->getValidCollisionModes())):
-        throw new InvalidCollisionMode($mode);
+        throw new cheeseExceptions\InvalidCollisionMode($mode);
       endif;
     }
   }
