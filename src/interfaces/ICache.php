@@ -26,9 +26,23 @@
     public function clearCache($cacheParams = array());
 
     /**
+     * @param $cacheParams
+     *
+     * @return mixed
+     */
+    public function geCacheValue($cacheParams);
+
+    /**
      * @return array
      */
     public function getValidCollisionModes();
+
+    /**
+     * @param $cacheParams
+     *
+     * @return bool
+     */
+    public function isCacheSet($cacheParams);
 
     /**
      * @param int $mode

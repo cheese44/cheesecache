@@ -10,9 +10,8 @@
    */
   class Cache implements cheeseInterfaces\ICache {
 
-    const LEAF_VALUE = 'value';
     const LEAF_CALLER = 'caller';
-
+    const LEAF_VALUE = 'value';
     /**
      * this key is a reserved value for $cacheParams
      * and is used for branching the cache paths from the actual cache values
@@ -34,7 +33,7 @@
     public function cache($cacheParams, $cacheable, $renewCache = false) {
       $cacheParams = (array)$cacheParams;
       $renewCache = (bool)$renewCache;
-      
+
       $this->validateCacheParameters($cacheParams);
 
       if(!$renewCache && $this->isCacheSet($cacheParams)):
@@ -75,6 +74,32 @@
     }
 
     /**
+     * @param $cacheParams
+     *
+     * @return mixed
+     */
+    public function geCacheValue($cacheParams) {
+      if($this->isCacheSet($cacheParams)):
+
+        $cacheParams[] = self::RESERVED_CACHE_KEY;
+        $cacheParams[] = self::LEAF_VALUE;
+
+        $cache = $this->cache;
+        while(count($cacheParams) != 0):
+          $cacheParam = array_shift($cacheParams);
+
+          $cache = $cache[$cacheParam];
+        endwhile;
+      else:
+        $cache = null;
+      endif;
+
+      $cleanValue = $this->cleanValue($cache);
+
+      return $cleanValue;
+    }
+
+    /**
      * @return array
      */
     public function getValidCollisionModes() {
@@ -83,6 +108,29 @@
         self::COLLISION_MODE_ERROR,
         self::COLLISION_MODE_LOG
       );
+    }
+
+    /**
+     * @param $cacheParams
+     *
+     * @return bool
+     */
+    public function isCacheSet($cacheParams) {
+      $cache = &$this->cache;
+
+      $cacheParams[] = self::RESERVED_CACHE_KEY;
+
+      while(!empty($cacheParams)):
+        $cacheParam = array_shift($cacheParams);
+
+        if(!isset($cache[$cacheParam])):
+          return false;
+        else:
+          $cache = &$cache[$cacheParam];
+        endif;
+      endwhile;
+
+      return true;
     }
 
     /**
@@ -96,7 +144,7 @@
       if($this->collisionMode !== $mode):
         $this->cache = array();
       endif;
-      
+
       $this->collisionMode = $mode;
     }
 
@@ -105,11 +153,11 @@
      */
     public function setDebugging($debug = false) {
       $debug = (bool)$debug;
-      
+
       if($this->debug !== $debug):
         $this->cache = array();
       endif;
-      
+
       $this->debug = (bool)$debug;
     }
 
@@ -139,55 +187,6 @@
 
     /**
      * @param $cacheParams
-     *
-     * @return mixed
-     */
-    private function geCacheValue($cacheParams) {
-      if($this->isCacheSet($cacheParams)):
-        
-        $cacheParams[] = self::RESERVED_CACHE_KEY;
-        $cacheParams[] = self::LEAF_VALUE;
-        
-        $cache = $this->cache;
-        while(count($cacheParams) != 0):
-          $cacheParam = array_shift($cacheParams);
-
-          $cache = $cache[$cacheParam];
-        endwhile;
-      else:
-        $cache = null;
-      endif;
-
-      $cleanValue = $this->cleanValue($cache);
-
-      return $cleanValue;
-    }
-
-    /**
-     * @param $cacheParams
-     *
-     * @return bool
-     */
-    private function isCacheSet($cacheParams) {
-      $cache = &$this->cache;
-
-      $cacheParams[] = self::RESERVED_CACHE_KEY;
-      
-      while(!empty($cacheParams)):
-        $cacheParam = array_shift($cacheParams);
-
-        if(!isset($cache[$cacheParam])):
-          return false;
-        else:
-          $cache = &$cache[$cacheParam];
-        endif;
-      endwhile;
-
-      return true;
-    }
-
-    /**
-     * @param $cacheParams
      * @param $value
      */
     private function setCacheValue($cacheParams, $value) {
@@ -198,7 +197,7 @@
         if(!isset($branch[$cacheParam])):
           $branch[$cacheParam] = array();
         endif;
-        
+
         $branch = &$branch[$cacheParam];
       endwhile;
 
@@ -220,7 +219,7 @@
           self::LEAF_VALUE => $value
         );
       endif;
-      
+
       $branch[self::RESERVED_CACHE_KEY] = $leaf;
     }
 
