@@ -1,5 +1,5 @@
 {
-  "name": "cheese44/cheeseCache",
+  "name": "cheese44/cheesecache",
   "description": "A request scoped cache library for PHP with the goal to make caching consistent and maintainable.",
   "type": "library",
   "license": "MIT",
