@@ -36,7 +36,7 @@
         global $cacheCounter;
 
         $this->assertEquals($expectedValue, $value);
-        $this->assertEquals(($renew ? 5 : 1), $cacheCounter);
+        $this->assertEquals(($renew ? $ct+1 : 1), $cacheCounter);
         $this->assertEquals($expectedCacheStructure, $cacheStructure);
       endfor;
     }

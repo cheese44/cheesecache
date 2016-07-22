@@ -33,6 +33,7 @@
      */
     public function cache($cacheParams, $cacheable, $renewCache = false) {
       $cacheParams = (array)$cacheParams;
+      $renewCache = (bool)$renewCache;
       
       $this->validateCacheParameters($cacheParams);
 
