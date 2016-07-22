@@ -1,12 +1,13 @@
 {
   "name": "cheese44/cheeseCache",
-  "description": "cheeseCache",
+  "description": "A request scoped cache library for PHP with the goal to make caching consistent and maintainable.",
   "type": "library",
   "license": "MIT",
   "support": {
     "issues": "https://github.com/cheese44/cheeseCache/issues",
     "source": "https://github.com/cheese44/cheeseCache"
   },
+  "keywords": ["cache", "caching", "request scope", "request scoped"],
   "require": {
     "php": ">=5.3"
   },
