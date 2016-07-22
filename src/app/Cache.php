@@ -10,6 +10,9 @@
    */
   class Cache implements cheeseInterfaces\ICache {
 
+    const LEAF_VALUE = 'value';
+    const LEAF_CALLER = 'caller';
+
     /**
      * this key is a reserved value for $cacheParams
      * and is used for branching the cache paths from the actual cache values
@@ -89,6 +92,10 @@
     public function setCollisionMode($mode = self::COLLISION_MODE_IGNORE) {
       $this->validateCollisionMode($mode);
 
+      if($this->collisionMode !== $mode):
+        $this->cache = array();
+      endif;
+      
       $this->collisionMode = $mode;
     }
 
@@ -96,6 +103,12 @@
      * @param bool $debug
      */
     public function setDebugging($debug = false) {
+      $debug = (bool)$debug;
+      
+      if($this->debug !== $debug):
+        $this->cache = array();
+      endif;
+      
       $this->debug = (bool)$debug;
     }
 
@@ -132,6 +145,8 @@
       if($this->isCacheSet($cacheParams)):
         
         $cacheParams[] = self::RESERVED_CACHE_KEY;
+        $cacheParams[] = self::LEAF_VALUE;
+        
         $cache = $this->cache;
         while(count($cacheParams) != 0):
           $cacheParam = array_shift($cacheParams);
@@ -175,16 +190,37 @@
      * @param $value
      */
     private function setCacheValue($cacheParams, $value) {
-      $cache = &$this->cache;
+      $branch = &$this->cache;
       while(!empty($cacheParams)):
         $cacheParam = array_shift($cacheParams);
 
-        $cache = &$cache[$cacheParam];
+        if(!isset($branch[$cacheParam])):
+          $branch[$cacheParam] = array();
+        endif;
+        
+        $branch = &$branch[$cacheParam];
       endwhile;
 
       $value = $this->cleanValue($value);
 
-      $cache[self::RESERVED_CACHE_KEY] = $value;
+      if($this->debug):
+        $debug_backtrace = debug_backtrace();
+        $leaf = array(
+          self::LEAF_VALUE  => $value,
+          self::LEAF_CALLER => sprintf(
+            '%s%s%s',
+            $debug_backtrace[2]['class'],
+            $debug_backtrace[2]['type'],
+            $debug_backtrace[2]['function']
+          )
+        );
+      else:
+        $leaf = array(
+          self::LEAF_VALUE => $value
+        );
+      endif;
+      
+      $branch[self::RESERVED_CACHE_KEY] = $leaf;
     }
 
     /**
