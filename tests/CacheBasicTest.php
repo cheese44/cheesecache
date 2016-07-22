@@ -9,7 +9,7 @@
   /**
    * @author cheese44
    */
-  class TestCacheBasic extends \PHPUnit_Framework_TestCase {
+  class CacheBasicTest extends \PHPUnit_Framework_TestCase {
 
     /** @var  cheeseInterfaces\ICache $cache */
     private $cache;
@@ -77,7 +77,7 @@
                   'hello' => array(
                     cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(
                       cheeseCacheApp\Cache::LEAF_VALUE  => 'first cached value',
-                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\TestCacheBasic->cacheMultipleTimes'
+                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\CacheBasicTest->cacheMultipleTimes'
                     )
                   )
                 )
@@ -130,7 +130,7 @@
                   'hello' => array(
                     cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(
                       cheeseCacheApp\Cache::LEAF_VALUE  => 'first cached value',
-                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\TestCacheBasic->testCacheByValue'
+                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\CacheBasicTest->testCacheByValue'
                     )
                   )
                 )

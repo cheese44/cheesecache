@@ -1,12 +1,8 @@
 language: php
 php:
   - '5.3'
-before_install:
-  - composer self-update
-
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - composer install
 
 script:
-  - phpunit
   - phpunit --configuration phpunit.xml

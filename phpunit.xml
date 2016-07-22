@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="true"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
-         colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
-         strict="false"
-         verbose="false">
+<phpunit bootstrap="vendor/autoload.php">
   <testsuites>
-    <testsuite name="Unit">
+    <testsuite name="Unittests">
       <directory>tests</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">src/</directory>
-    </whitelist>
-  </filter>
 </phpunit>
