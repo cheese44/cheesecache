@@ -6,6 +6,8 @@
 
 A request scoped cache library for PHP with the goal to make caching consistent and maintainable.
 
+Best used for caching function and query results that are called multiple times during a request and are unlikely to change
+
 ## Installation
 
 Package is available on [Packagist](https://packagist.org/packages/cheese44/cheesecache), you can install it
