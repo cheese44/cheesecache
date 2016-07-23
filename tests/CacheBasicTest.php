@@ -67,7 +67,7 @@
 
             ++$cacheCounter;
 
-            return 'first cached value';
+            return (object)array('firstVal' => 'first cached value');
           },
           true,
           array(
@@ -76,7 +76,7 @@
                 2 => array(
                   'hello' => array(
                     cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(
-                      cheeseCacheApp\Cache::LEAF_VALUE  => 'first cached value',
+                      cheeseCacheApp\Cache::LEAF_VALUE  => (object)array('firstVal' => 'first cached value'),
                       cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\CacheBasicTest->cacheMultipleTimes'
                     )
                   )
@@ -84,7 +84,7 @@
               )
             )
           ),
-          'first cached value'
+          (object)array('firstVal' => 'first cached value')
         ),
         array(
           array('test', 'test', 2, 2),
@@ -311,6 +311,15 @@
       $this->assertTrue($this->cache->isCacheSet(array(1, 2, 3)));
       $this->assertTrue($this->cache->isCacheSet(array(1, 2, 2)));
       $this->assertFalse($this->cache->isCacheSet(array(1, 2)));
+    }
+
+    public function testGetUnsetCacheValue() {
+      $this->cache->cache(array(1, 2), 'test1');
+      $this->cache->cache(array(1), 'test2');
+      
+      $value = $this->cache->geCacheValue(array(1, 1));
+      
+      $this->assertNull($value);
     }
 
   }

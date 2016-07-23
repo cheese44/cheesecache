@@ -27,6 +27,7 @@
      * @param bool           $renewCache //cached value will be overwritten if true
      *
      * @return mixed
+     * @throws cheeseExceptions\InvalidCacheParameter
      */
     public function cache($cacheParams, $cacheable, $renewCache = false) {
       $cacheParams = (array)$cacheParams;
@@ -51,6 +52,8 @@
 
     /**
      * @param array $cacheParams
+     * 
+     * @throws cheeseExceptions\InvalidCacheParameter
      */
     public function clearCache($cacheParams = array()) {
       $cacheParams = (array)$cacheParams;
@@ -75,6 +78,7 @@
      * @param $cacheParams
      *
      * @return mixed
+     * @throws cheeseExceptions\InvalidCacheParameter
      */
     public function geCacheValue($cacheParams) {
       $this->validateCacheParameters($cacheParams);
@@ -103,6 +107,7 @@
      * @param $cacheParams
      *
      * @return bool
+     * @throws cheeseExceptions\InvalidCacheParameter
      */
     public function isCacheSet($cacheParams) {
       $this->validateCacheParameters($cacheParams);
