@@ -298,4 +298,19 @@
       $this->assertEquals($value3, $returnedValue3);
     }
 
+    /**
+     * @depends testCacheByValues
+     */
+    public function testClearValue() {
+      $this->cache->cache(array(1, 2, 3), 'value1');
+      $this->cache->cache(array(1, 2), 'value2');
+      $this->cache->cache(array(1, 2, 2), 'value3');
+      
+      $this->cache->clearCache(array(1, 2));
+      
+      $this->assertTrue($this->cache->isCacheSet(array(1, 2, 3)));
+      $this->assertTrue($this->cache->isCacheSet(array(1, 2, 2)));
+      $this->assertFalse($this->cache->isCacheSet(array(1, 2)));
+    }
+
   }
