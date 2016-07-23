@@ -28,7 +28,7 @@ composer require cheese44/cheesecache
          * 
          * you don't have to clutter your code with checking, setting and reading the cache yourself
          */
-        public function cacheSumAsValue($a, $b) {
+        public function cacheSum($a, $b) {
             $cache = cheeseCache\app\cacheProvider::getCache();
       
             $sum = $cache->cache(
@@ -43,7 +43,7 @@ composer require cheese44/cheesecache
         /**
          * of course cheeseCache still gives you the possibility to manually access these functionalities
          */
-        public function cacheSumAsValue_Explicit($a, $b) {
+        public function cacheSum_Explicit($a, $b) {
             $cache = cheeseCache\app\cacheProvider::getCache();
       
             if($cache->isCacheSet(array($a, $b))):
