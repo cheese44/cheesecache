@@ -19,9 +19,7 @@
     const RESERVED_CACHE_KEY = 'reserved_cache_key';
 
     private $cache = array();
-    private $collisionMode = self::COLLISION_MODE_IGNORE;
     private $debug = false;
-    private $memoryLimit = 0;
 
     /**
      * @param array          $cacheParams
@@ -102,17 +100,6 @@
     }
 
     /**
-     * @return array
-     */
-    public function getValidCollisionModes() {
-      return array(
-        self::COLLISION_MODE_IGNORE,
-        self::COLLISION_MODE_ERROR,
-        self::COLLISION_MODE_LOG
-      );
-    }
-
-    /**
      * @param $cacheParams
      *
      * @return bool
@@ -138,21 +125,6 @@
     }
 
     /**
-     * @param int $mode
-     *
-     * collision mode will only take effect when debugging is activated
-     */
-    public function setCollisionMode($mode = self::COLLISION_MODE_IGNORE) {
-      $this->validateCollisionMode($mode);
-
-      if($this->collisionMode !== $mode):
-        $this->cache = array();
-      endif;
-
-      $this->collisionMode = $mode;
-    }
-
-    /**
      * @param bool $debug
      */
     public function setDebugging($debug = false) {
@@ -163,17 +135,6 @@
       endif;
 
       $this->debug = (bool)$debug;
-    }
-
-    /**
-     * @param int $memoryLimit
-     * memory limit in MB that will be applied to the object.
-     * the cache will try not to occupy more memory by deleting previously cached values.
-     *
-     * if the limit is set to 0 no limitation will be applied
-     */
-    public function setMemoryLimit($memoryLimit = 0) {
-      $this->memoryLimit = (int)$memoryLimit;
     }
 
     /**
@@ -238,14 +199,4 @@
       endif;
     }
 
-    /**
-     * @param int $mode
-     *
-     * @throws cheeseExceptions\InvalidCollisionMode
-     */
-    private function validateCollisionMode($mode) {
-      if(!in_array($mode, $this->getValidCollisionModes())):
-        throw new cheeseExceptions\InvalidCollisionMode($mode);
-      endif;
-    }
   }

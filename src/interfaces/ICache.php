@@ -33,11 +33,6 @@
     public function geCacheValue($cacheParams);
 
     /**
-     * @return array
-     */
-    public function getValidCollisionModes();
-
-    /**
      * @param $cacheParams
      *
      * @return bool
@@ -45,23 +40,8 @@
     public function isCacheSet($cacheParams);
 
     /**
-     * @param int $mode
-     *
-     * collision mode will only take effect when debugging is activated
-     */
-    public function setCollisionMode($mode = self::COLLISION_MODE_IGNORE);
-
-    /**
      * @param bool $debug
      */
     public function setDebugging($debug = false);
 
-    /**
-     * @param int $memoryLimit
-     * memory limit in MB that will be applied to the object.
-     * the cache will try not to occupy more memory by deleting previously cached values.
-     *
-     * if the limit is set to 0 no limitation will be applied
-     */
-    public function setMemoryLimit($memoryLimit = 0);
   }
