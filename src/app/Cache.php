@@ -79,6 +79,8 @@
      * @return mixed
      */
     public function geCacheValue($cacheParams) {
+      $this->validateCacheParameters($cacheParams);
+      
       if($this->isCacheSet($cacheParams)):
 
         $cacheParams[] = self::RESERVED_CACHE_KEY;
@@ -116,6 +118,8 @@
      * @return bool
      */
     public function isCacheSet($cacheParams) {
+      $this->validateCacheParameters($cacheParams);
+      
       $cache = &$this->cache;
 
       $cacheParams[] = self::RESERVED_CACHE_KEY;

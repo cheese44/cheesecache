@@ -36,7 +36,7 @@
         global $cacheCounter;
 
         $this->assertEquals($expectedValue, $value);
-        $this->assertEquals(($renew ? $ct+1 : 1), $cacheCounter);
+        $this->assertEquals(($renew ? $ct + 1 : 1), $cacheCounter);
         $this->assertEquals($expectedCacheStructure, $cacheStructure);
       endfor;
     }
@@ -159,6 +159,58 @@
       );
     }
 
+    public function provideCacheByValues() {
+      return array(
+        array(
+          array(1, 1, 1),
+          'value1',
+          array(2, 1, 1),
+          'value2',
+          array(3, 1, 1),
+          'value3',
+          array(
+            1 => array(1 => array(1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')))),
+            2 => array(1 => array(1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value2')))),
+            3 => array(1 => array(1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))))
+          )
+        ),
+        array(
+          array(1, 1, 1),
+          'value1',
+          array(1, 1),
+          'value2',
+          array(1, 1, 2),
+          'value3',
+          array(
+            1 => array(
+              1 => array(
+                1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
+                cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value2'),
+                2 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
+              )
+            )
+          )
+        ),
+        array(
+          array(1, 1, 1),
+          'value1',
+          array(1, 1),
+          'value2',
+          array(1, 1, 2),
+          'value3',
+          array(
+            1 => array(
+              1 => array(
+                1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
+                cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value2'),
+                2 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
+              )
+            )
+          )
+        )
+      );
+    }
+
     /**
      *
      */
@@ -183,10 +235,10 @@
 
       $this->cacheMultipleTimes($params, $callable, $expectedValue, $expectedCacheStructure, false);
       $this->cache->clearCache();
-      
+
       $this->cacheMultipleTimes($params, $callable, $expectedValue, $expectedCacheStructure, true);
       $this->cache->clearCache();
-      
+
       $this->cacheMultipleTimes($params, $callable, $expectedValue, $expectedCacheStructure, false);
       $this->cache->clearCache();
     }
@@ -207,6 +259,43 @@
       $cacheStructure = $this->getCacheStructure();
 
       $this->assertEquals($expectedCacheStructure, $cacheStructure);
+    }
+
+    /**
+     * @param array $params1
+     * @param mixed $value1
+     * @param array $params2
+     * @param mixed $value2
+     * @param array $params3
+     * @param mixed $value3
+     * @param array $expectedCacheStructure
+     *
+     * @dataProvider provideCacheByValues
+     */
+    public function testCacheByValues(
+      $params1,
+      $value1,
+      $params2,
+      $value2,
+      $params3,
+      $value3,
+      $expectedCacheStructure
+    ) {
+      $this->cache->cache($params1, $value1);
+      $this->cache->cache($params2, $value2);
+      $this->cache->cache($params3, $value3);
+
+      $cacheStructure = $this->getCacheStructure();
+
+      $this->assertEquals($expectedCacheStructure, $cacheStructure);
+
+      $returnedValue1 = $this->cache->geCacheValue($params1);
+      $returnedValue2 = $this->cache->geCacheValue($params2);
+      $returnedValue3 = $this->cache->geCacheValue($params3);
+
+      $this->assertEquals($value1, $returnedValue1);
+      $this->assertEquals($value2, $returnedValue2);
+      $this->assertEquals($value3, $returnedValue3);
     }
 
   }

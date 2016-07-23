@@ -22,4 +22,8 @@
       return self::$cache;
     }
     
+    public static function destroyCache() {
+      self::$cache = null;
+    }
+    
   }
