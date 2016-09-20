@@ -1,7 +1,7 @@
 # cheeseCache
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
-[![Build Status](https://img.shields.io/travis/cheese44/cheesecache/master.svg?style=flat-square)](https://travis-ci.org/cheese44/cheeseCache)
+[![Build Status](https://img.shields.io/travis/cheese44/cheesecache/master.svg?style=flat-square)](https://travis-ci.org/cheese44/cheesecache)
 [![Coverage Status](https://img.shields.io/codecov/c/github/cheese44/cheesecache.svg?style=flat-square)](https://codecov.io/github/cheese44/cheesecache)
 
 A request scoped cache library for PHP with the goal to make caching consistent and maintainable.
