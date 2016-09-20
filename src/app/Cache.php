@@ -10,7 +10,7 @@
    */
   class Cache implements cheeseInterfaces\ICache {
 
-    const LEAF_CALLER = 'caller';
+    const LEAF_CALLERS = 'callers';
     const LEAF_VALUE = 'value';
     /**
      * this key is a reserved value for $cacheParams
@@ -174,15 +174,25 @@
       $value = $this->cleanValue($value);
 
       if($this->debug):
+        if(isset($branch[self::RESERVED_CACHE_KEY])):
+          $callers = $branch[self::RESERVED_CACHE_KEY][self::LEAF_CALLERS];
+        else:
+          $callers = array();
+        endif;
+        
         $debug_backtrace = debug_backtrace();
+        $caller = sprintf(
+          '%s%s%s',
+          $debug_backtrace[2]['class'],
+          $debug_backtrace[2]['type'],
+          $debug_backtrace[2]['function']
+        );
+
+        $callers[$caller] = $caller;
+        
         $leaf = array(
-          self::LEAF_VALUE  => $value,
-          self::LEAF_CALLER => sprintf(
-            '%s%s%s',
-            $debug_backtrace[2]['class'],
-            $debug_backtrace[2]['type'],
-            $debug_backtrace[2]['function']
-          )
+          self::LEAF_VALUE   => $value,
+          self::LEAF_CALLERS => $callers
         );
       else:
         $leaf = array(

@@ -76,8 +76,10 @@
                 2 => array(
                   'hello' => array(
                     cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(
-                      cheeseCacheApp\Cache::LEAF_VALUE  => (object)array('firstVal' => 'first cached value'),
-                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\CacheBasicTest->cacheMultipleTimes'
+                      cheeseCacheApp\Cache::LEAF_VALUE   => (object)array('firstVal' => 'first cached value'),
+                      cheeseCacheApp\Cache::LEAF_CALLERS => array(
+                        'cheeseCache\tests\CacheBasicTest->cacheMultipleTimes' => 'cheeseCache\tests\CacheBasicTest->cacheMultipleTimes'
+                      )
                     )
                   )
                 )
@@ -129,8 +131,10 @@
                 2 => array(
                   'hello' => array(
                     cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(
-                      cheeseCacheApp\Cache::LEAF_VALUE  => 'first cached value',
-                      cheeseCacheApp\Cache::LEAF_CALLER => 'cheeseCache\tests\CacheBasicTest->testCacheByValue'
+                      cheeseCacheApp\Cache::LEAF_VALUE   => 'first cached value',
+                      cheeseCacheApp\Cache::LEAF_CALLERS => array(
+                        'cheeseCache\tests\CacheBasicTest->testCacheByValue' => 'cheeseCache\tests\CacheBasicTest->testCacheByValue'
+                      )
                     )
                   )
                 )
@@ -184,9 +188,9 @@
           array(
             1 => array(
               1 => array(
-                1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
+                1                                        => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
                 cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value2'),
-                2 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
+                2                                        => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
               )
             )
           )
@@ -201,9 +205,9 @@
           array(
             1 => array(
               1 => array(
-                1 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
+                1                                        => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value1')),
                 cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value2'),
-                2 => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
+                2                                        => array(cheeseCacheApp\Cache::RESERVED_CACHE_KEY => array(cheeseCacheApp\Cache::LEAF_VALUE => 'value3'))
               )
             )
           )
@@ -305,9 +309,9 @@
       $this->cache->cache(array(1, 2, 3), 'value1');
       $this->cache->cache(array(1, 2), 'value2');
       $this->cache->cache(array(1, 2, 2), 'value3');
-      
+
       $this->cache->clearCache(array(1, 2));
-      
+
       $this->assertTrue($this->cache->isCacheSet(array(1, 2, 3)));
       $this->assertTrue($this->cache->isCacheSet(array(1, 2, 2)));
       $this->assertFalse($this->cache->isCacheSet(array(1, 2)));
@@ -316,9 +320,9 @@
     public function testGetUnsetCacheValue() {
       $this->cache->cache(array(1, 2), 'test1');
       $this->cache->cache(array(1), 'test2');
-      
+
       $value = $this->cache->geCacheValue(array(1, 1));
-      
+
       $this->assertNull($value);
     }
 
