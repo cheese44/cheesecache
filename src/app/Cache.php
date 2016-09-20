@@ -20,6 +20,7 @@
 
     private $cache = array();
     private $debug = false;
+    private $collisionMode = self::COLLISION_MODE_IGNORE;
 
     /**
      * @param array          $cacheParams
@@ -50,6 +51,58 @@
       return $value;
     }
 
+    /**
+     * @return array
+     */
+    public function getValidCollisionModes() {
+      return array(
+        self::COLLISION_MODE_IGNORE,
+        self::COLLISION_MODE_ERROR,
+        self::COLLISION_MODE_LOG
+      );
+    }
+
+    /**
+     * @param int $mode
+     *
+     * collision mode will only take effect when debugging is activated
+     */
+    public function setCollisionMode($mode = self::COLLISION_MODE_IGNORE) {
+      $this->validateCollisionMode($mode);
+
+      $this->collisionMode = $mode;
+    }
+
+    /**
+     * @return int $mode
+     */
+    public function getCollisionMode() {
+
+      return $this->collisionMode;
+    }
+
+    private function handleCollisions($callers, $cacheParams) {
+      switch($this->collisionMode):
+        case self::COLLISION_MODE_LOG:
+          error_log('Collision detected at "'.implode(' -> ', $cacheParams).'": '.implode(', ', $callers));
+          break;
+        case self::COLLISION_MODE_ERROR:
+          throw new cheeseExceptions\CacheCollision($cacheParams, $callers);
+          break;
+      endswitch;
+    }
+
+    /**
+     * @param int $mode
+     *
+     * @throws cheeseExceptions\InvalidCollisionMode
+     */
+    private function validateCollisionMode($mode) {
+      if(!in_array($mode, $this->getValidCollisionModes())):
+        throw new cheeseExceptions\InvalidCollisionMode($mode);
+      endif;
+    }
+    
     /**
      * @param array $cacheParams
      * 
@@ -189,6 +242,8 @@
         );
 
         $callers[$caller] = $caller;
+        
+        $this->handleCollisions($callers, $cacheParams);
         
         $leaf = array(
           self::LEAF_VALUE   => $value,
